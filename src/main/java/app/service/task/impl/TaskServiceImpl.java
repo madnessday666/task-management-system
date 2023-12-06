@@ -30,11 +30,8 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     /**
-     * Метод, реализующий поиск задач по указанным критериям в базе данных.
-     *
-     * @param specification критерии поиска.
-     * @param pageable      размеры возвращаемой страницы данных.
-     * @return {@link Page} со всеми найденными в БД задачами.
+     * {@inheritDoc}
+     * @see TaskService#getTaskPage(Specification, Pageable)
      */
     @Override
     public Page<TaskEntity> getTaskPage(Specification<TaskEntity> specification, Pageable pageable) {
@@ -43,11 +40,8 @@ public class TaskServiceImpl implements TaskService {
 
 
     /**
-     * Метод, реализующий поиск задачи с указанным {@literal taskId} в базе данных.
-     *
-     * @param taskId id задачи.
-     * @return {@link TaskEntity} объект с данными из БД.
-     * @throws NotFoundException если задача с указанным {@literal taskId} не присутствует в БД.
+     * {@inheritDoc}
+     * @see TaskService#getTaskById(UUID)
      */
     @Override
     public TaskEntity getTaskById(UUID taskId) throws NotFoundException {
@@ -55,10 +49,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Метод для проверки на существование задачи с указанным {@literal taskId} в базе данных.
-     *
-     * @param taskId id задачи.
-     * @return {@literal true} - если задача присутствует в БД, в противном случае - {@literal false}
+     * {@inheritDoc}
+     * @see TaskService#getIsTaskExistsById(UUID)
      */
     @Override
     public boolean getIsTaskExistsById(UUID taskId) {
@@ -66,11 +58,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Метод для проверки на существование задачи с указанными {@literal name} и {@literal creatorId} в базе данных.
-     *
-     * @param name      имя задачи.
-     * @param creatorId id создателя задачи.
-     * @return {@literal  true} - если задача присутствует в БД, в противном случае - {@literal  false}
+     * {@inheritDoc}
+     * @see TaskService#getIsTaskExistsByNameAndCreatorId(String, UUID)
      */
     @Override
     public boolean getIsTaskExistsByNameAndCreatorId(String name, UUID creatorId) {
@@ -78,11 +67,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Метод для создания новой задачи с последующим сохранением ее в базе данных.
-     * @param createTaskRequest запрос для создания новой задачи.
-     * @return {@link CreateTaskResponse} ответ с данными, возвращенными из БД после сохранения задачи.
-     * @throws AlreadyExistsException если задача с указанным в запросе именем уже существует у пользователя,
-     * указанного в запросе как создатель задачи ({@literal creatorId}).
+     * {@inheritDoc}
+     * @see TaskService#createTask(CreateTaskRequest)
      */
     @Override
     public CreateTaskResponse createTask(CreateTaskRequest createTaskRequest) throws AlreadyExistsException {
@@ -103,10 +89,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Метод для обновления существующей задачи.
-     * @param updateTaskRequest запрос для обновления задачи.
-     * @return {@link UpdateTaskResponse} ответ с данными, возвращенными из БД после обновления задачи.
-     * @throws NotFoundException если задача с указанным {@literal id} не присутствует в БД.
+     * {@inheritDoc}
+     * @see TaskService#updateTask(UpdateTaskRequest)
      */
     @Override
     public UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) throws NotFoundException{
@@ -143,10 +127,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Метод для удаления задачи.
-     * @param deleteTaskRequest запрос для удаления задачи.
-     * @return {@link DeleteTaskResponse} ответ с данными, возвращенными из БД после удаления задачи.
-     * @throws NotFoundException если задача с указанным {@literal id} не присутствует в БД.
+     * {@inheritDoc}
+     * @see TaskService#deleteTask(DeleteTaskRequest)
      */
     @Override
     public DeleteTaskResponse deleteTask(DeleteTaskRequest deleteTaskRequest) throws NotFoundException{
@@ -159,7 +141,6 @@ public class TaskServiceImpl implements TaskService {
             throw new NotFoundException("Task", "id", deleteTaskRequest.getId());
         }
     }
-
 
     private boolean isStringCorrect(String value) {
         return value != null && !value.isEmpty() && !value.isBlank();
