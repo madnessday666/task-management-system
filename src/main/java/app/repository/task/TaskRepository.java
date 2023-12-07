@@ -61,7 +61,26 @@ public interface TaskRepository extends JpaRepository<TaskEntity, UUID>, JpaSpec
     boolean existsByNameAndCreatorId(@Nullable String name, @Nullable UUID creatorId);
 
     /**
+     * Проверка на наличие задачи с указанными {@literal taskId} и {@literal creatorId} в базе данных.
+     *
+     * @param taskId    id задачи, не должен быть {@literal null}.
+     * @param creatorId id создателя задачи, не должен быть {@literal null}.
+     * @return {@literal true} - если сущетсвует, в противном случае - {@literal false}
+     */
+    boolean existsByIdAndCreatorId(@Nullable UUID taskId, @Nullable UUID creatorId);
+
+    /**
+     * Проверка на наличие задачи с указанными {@literal taskId} и {@literal executorId} в базе данных.
+     *
+     * @param taskId     id задачи, не должен быть {@literal null}.
+     * @param executorId id исполнителя задачи, не должен быть {@literal null}.
+     * @return {@literal true} - если сущетсвует, в противном случае - {@literal false}
+     */
+    boolean existsByIdAndExecutorId(@Nullable UUID taskId, @Nullable UUID executorId);
+
+    /**
      * Удаление задачи с указанным {@literal taskId} из базы данных.
+     *
      * @param taskId id задачи.
      * @return {@link UUID} - id удаленной задачи.
      */

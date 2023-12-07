@@ -32,6 +32,7 @@ public class TaskSpecification {
 
     /**
      * Метод, собирающий в себе все объявленные в данном классе методы фильтра данных.
+     *
      * @param searchFilter набор полей, по которым будет выполнена фильрация данных.
      * @return {@link Specification} с набором фильтров.
      */
@@ -59,7 +60,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal id}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal id}.
      */
     private static Specification<TaskEntity> hasId(UUID id) {
         return ((root, query, cb) ->
@@ -69,7 +70,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal name}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal name}.
      */
     private static Specification<TaskEntity> hasName(String name) {
         return ((root, query, cb) ->
@@ -79,17 +80,17 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по указанному значению {@literal name}. Значение может лишь частично совпадать со значениями полей объектов в БД.
+     * Метод, добавляющий фильтрацию по указанному значению {@literal name}. Значение может лишь частично совпадать со значениями полей объектов в БД.
      */
     public static Specification<TaskEntity> likeName(String name) {
-       return  ((root, query, cb) ->
-               name == null || name.isEmpty() || name.isBlank() ?
+        return ((root, query, cb) ->
+                name == null || name.isEmpty() || name.isBlank() ?
                         null :
-                       cb.like(root.get(NAME), "%" + name + "%"));
+                        cb.like(root.get(NAME), "%" + name + "%"));
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal description}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal description}.
      */
     private static Specification<TaskEntity> hasDescription(String description) {
         return ((root, query, cb) ->
@@ -99,7 +100,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal status}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal status}.
      */
     private static Specification<TaskEntity> hasStatus(String status) {
         if (status == null) {
@@ -115,7 +116,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal priority}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal priority}.
      */
     private static Specification<TaskEntity> hasPriority(String priority) {
         if (priority == null) {
@@ -131,7 +132,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal creatorId}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal creatorId}.
      */
     private static Specification<TaskEntity> hasCreatorId(UUID creatorId) {
         return ((root, query, cb) ->
@@ -141,7 +142,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal executorId}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal executorId}.
      */
     private static Specification<TaskEntity> hasExecutorId(UUID executorId) {
         return ((root, query, cb) ->
@@ -151,7 +152,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному значению {@literal createdAt}.
+     * Метод, добавляющий фильтрацию строго по указанному значению {@literal createdAt}.
      */
     private static Specification<TaskEntity> hasCreatedAt(LocalDateTime createdAt) {
         return ((root, query, cb) ->
@@ -161,7 +162,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по полю {@literal createdAt}, где все значения больше или равны {@literal createdAtAfter}.
+     * Метод, добавляющий фильтрацию по полю {@literal createdAt}, где все значения больше или равны {@literal createdAtAfter}.
      */
     private static Specification<TaskEntity> hasCreatedAtAfter(LocalDateTime createdAtAfter) {
         return ((root, query, cb) ->
@@ -171,7 +172,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по полю {@literal createdAt}, где все значения меньше или равны {@literal createdAtBefore}.
+     * Метод, добавляющий фильтрацию по полю {@literal createdAt}, где все значения меньше или равны {@literal createdAtBefore}.
      */
     private static Specification<TaskEntity> hasCreatedAtBefore(LocalDateTime createdAtBefore) {
         return ((root, query, cb) ->
@@ -181,7 +182,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному полю {@literal expiresOn}.
+     * Метод, добавляющий фильтрацию строго по указанному полю {@literal expiresOn}.
      */
     private static Specification<TaskEntity> hasExpiresOn(LocalDateTime expiresOn) {
         return ((root, query, cb) ->
@@ -191,7 +192,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по полю {@literal expiresOn}, где все значения больше или равны {@literal expiresOnAfter}.
+     * Метод, добавляющий фильтрацию по полю {@literal expiresOn}, где все значения больше или равны {@literal expiresOnAfter}.
      */
     private static Specification<TaskEntity> hasExpiresOnAfter(LocalDateTime expiresOnAfter) {
         return ((root, query, cb) ->
@@ -201,7 +202,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по полю {@literal expiresOn}, где все значения меньше или равны {@literal expiresOnBefore}.
+     * Метод, добавляющий фильтрацию по полю {@literal expiresOn}, где все значения меньше или равны {@literal expiresOnBefore}.
      */
     private static Specification<TaskEntity> hasExpiresOnBefore(LocalDateTime expiresOnBefore) {
         return ((root, query, cb) ->
@@ -211,7 +212,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию строго по указанному полю {@literal updatedAt}.
+     * Метод, добавляющий фильтрацию строго по указанному полю {@literal updatedAt}.
      */
     private static Specification<TaskEntity> hasUpdatedAt(LocalDateTime updatedAt) {
         return ((root, query, cb) ->
@@ -221,7 +222,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по полю {@literal updatedAt}, где все значения больше или равны {@literal updatedAtAfter}.
+     * Метод, добавляющий фильтрацию по полю {@literal updatedAt}, где все значения больше или равны {@literal updatedAtAfter}.
      */
     private static Specification<TaskEntity> hasUpdatedAtAfter(LocalDateTime updatedAtAfter) {
         return ((root, query, cb) ->
@@ -231,7 +232,7 @@ public class TaskSpecification {
     }
 
     /**
-     *Метод, добавляющий фильтрацию по полю {@literal updatedAt}, где все значения меньше или равны {@literal updatedAtBefore}.
+     * Метод, добавляющий фильтрацию по полю {@literal updatedAt}, где все значения меньше или равны {@literal updatedAtBefore}.
      */
     private static Specification<TaskEntity> hasUpdatedAtBefore(LocalDateTime updatedAtBefore) {
         return ((root, query, cb) ->
