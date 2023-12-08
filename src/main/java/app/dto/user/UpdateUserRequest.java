@@ -2,6 +2,8 @@ package app.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -47,32 +49,35 @@ public class UpdateUserRequest {
     @Pattern(
             regexp = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$",
             message = """
-                        Password must contain 1 number (0-9)
-                        Password must contain 1 uppercase letters
-                        Password must contain 1 lowercase letters
-                        Password must contain 1 non-alpha numeric number
-                        Password is 8-16 characters with no space
-                    """)
-    @Schema(example = "mynewpass123", description = "Новый пароль пользователя для входа в систему")
+                    Password must contain 1 number (0-9)
+                    Password must contain 1 uppercase letters
+                    Password must contain 1 lowercase letters
+                    Password must contain 1 non-alpha numeric number
+                    Password is 8-16 characters with no space
+                     """)
+    @Schema(example = "Mynewpass123!", description = "Новый пароль пользователя для входа в систему")
     private String password;
 
     /**
      * Новое фактическое имя пользователя.
      */
     @Pattern(
-            regexp = "^[a-zA-Z\\s].{0,50}+",
+            regexp = "^[a-zA-Z\\s].{2,50}+",
             message =
                     """
                             Name can contain only letters a-z,A-Z.
-                            Name length must be under 50 letters.""")
-    @Schema(example = "Mynewname", description = "Новое фактическое имя пользователя")
+                            Name length must be between 2 to 50.""")
+    @Schema(example = "Mynewname", description = "Нвоое фактическое имя пользователя")
     private String name;
 
     /**
      * Новая электронная почта, должна содержать уникальное значение.
      */
+    @NotNull(message = "Email cannot be null")
+    @NotBlank(message = "Email cannot be blank")
+    @NotEmpty(message = "Email cannot be empty")
     @Pattern(
-            regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$",
+            regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
             message =
                     """
                             Email may contain numeric values from 0 to 9.
