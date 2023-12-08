@@ -30,7 +30,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, UUID>, JpaSpec
     Optional<TaskEntity> getTaskEntityById(UUID taskId);
 
     /**
-     * Позволяет выполнять поиск в базе данных по указанным критериям и заданным количеством выводимых страниц.
+     * Позволяет выполнять поиск в базе данных по указанным критериям и вернуть результат с заданным количеством страниц.
      * Если {@code Specification} отсутствует - возвращает все записи из БД.
      *
      * @param specification не должен быть {@literal null}.

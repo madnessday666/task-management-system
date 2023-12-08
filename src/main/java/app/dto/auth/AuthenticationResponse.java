@@ -1,5 +1,6 @@
 package app.dto.auth;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class AuthenticationResponse {
      * Дата и время создания ответа на запрос.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата и время создания ответа на запрос")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     @Override
@@ -34,4 +36,5 @@ public class AuthenticationResponse {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
 }

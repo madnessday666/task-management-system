@@ -27,9 +27,10 @@ import java.util.Map;
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
     private final UserServiceImpl userService;
-    private final PasswordEncoder passwordEncoder;
 
     /**
      * {@inheritDoc}

@@ -27,8 +27,8 @@ public class DeleteUserResponse {
      * Дата и время
      */
     @Builder.Default
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Schema(example = "2023-12-05T12:40", description = "Дата и время создания ответа на запрос")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     @Override

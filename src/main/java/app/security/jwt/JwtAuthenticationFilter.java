@@ -29,9 +29,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private final HandlerExceptionResolver handlerExceptionResolver;
+
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailsService;
-    private final HandlerExceptionResolver handlerExceptionResolver;
 
     /**
      * Список whitelist адресов.
@@ -59,13 +60,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             String jwt;
             String username;
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                boolean isPathAllowed = allowedEndpoints.stream().anyMatch(str -> request.getServletPath().startsWith(str));
-                if (!isPathAllowed) {
-                    throw new AuthorizationHeaderNotPresentException("Authorization header not present");
-                }
+            boolean isPathAllowed = allowedEndpoints.stream().anyMatch(str -> request.getServletPath().startsWith(str));
+            if (isPathAllowed) {
                 filterChain.doFilter(request, response);
                 return;
+            }
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                throw new AuthorizationHeaderNotPresentException();
             }
             jwt = authHeader.substring(7);
             username = jwtService.extractUsername(jwt);

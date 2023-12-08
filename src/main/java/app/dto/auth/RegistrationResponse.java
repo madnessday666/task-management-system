@@ -1,6 +1,7 @@
 package app.dto.auth;
 
 import app.entity.user.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -58,12 +59,14 @@ public class RegistrationResponse {
      * Дата и время создания пользователя, объект класса {@link LocalDateTime}
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата создания пользователя")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     /**
      * Дата и время обновления пользователя, объект класса {@link LocalDateTime}
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата обновления пользователя")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     /**
@@ -94,6 +97,7 @@ public class RegistrationResponse {
      * Дата и время создания ответа на запрос.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата и время создания ответа на запрос")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     @Override
@@ -114,5 +118,4 @@ public class RegistrationResponse {
                 ", timestamp=" + timestamp +
                 '}';
     }
-
 }

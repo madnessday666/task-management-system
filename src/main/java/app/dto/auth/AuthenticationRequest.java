@@ -33,7 +33,7 @@ public class AuthenticationRequest {
     @NotNull(message = "Password cannot be null")
     @NotBlank(message = "Password cannot be blank")
     @NotEmpty(message = "Password cannot be empty")
-    @Schema(example = "mypass123", description = "Пароль пользователя для входа в систему")
+    @Schema(example = "Mypass123!", description = "Пароль пользователя для входа в систему")
     private String password;
 
     /**
@@ -50,5 +50,4 @@ public class AuthenticationRequest {
                 ", timestamp=" + timestamp +
                 '}';
     }
-
 }

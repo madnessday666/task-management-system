@@ -1,5 +1,6 @@
 package app.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -44,6 +45,7 @@ public class UserDto {
      * Дата создания пользователя, объект класса {@link LocalDateTime}
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата создания пользователя")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @Override
@@ -56,5 +58,4 @@ public class UserDto {
                 ", createdAt=" + createdAt +
                 '}';
     }
-
 }

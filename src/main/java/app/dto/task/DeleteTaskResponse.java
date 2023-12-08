@@ -27,8 +27,8 @@ public class DeleteTaskResponse {
      * Дата и время создания ответа на запрос.
      */
     @Builder.Default
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Schema(description = "Дата и время создания ответа на запрос")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     @Override

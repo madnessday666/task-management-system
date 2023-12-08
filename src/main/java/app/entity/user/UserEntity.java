@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -128,7 +129,7 @@ public class UserEntity implements UserDetails {
         return "UserEntity{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + "[PROTECTED]" + '\'' +
+                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
@@ -139,5 +140,18 @@ public class UserEntity implements UserDetails {
                 ", credentialsExpired=" + credentialsExpired +
                 ", enabled=" + enabled +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        UserEntity user = (UserEntity) object;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

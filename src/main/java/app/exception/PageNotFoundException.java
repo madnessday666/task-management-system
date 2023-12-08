@@ -6,7 +6,7 @@ package app.exception;
 public class PageNotFoundException extends RuntimeException {
 
     /**
-     * Метод создания нового исключения с текстом {@literal message}
+     * Конуструктор для создания исключения с заданными параметрами.
      *
      * @param message детали ошибки.
      */

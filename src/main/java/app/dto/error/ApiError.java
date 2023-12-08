@@ -68,5 +68,4 @@ public class ApiError {
                 ", timestamp=" + timestamp +
                 '}';
     }
-
 }

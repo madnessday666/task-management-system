@@ -2,6 +2,7 @@ package app.dto.task;
 
 import app.entity.task.TaskPriority;
 import app.entity.task.TaskStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -64,18 +65,21 @@ public class TaskDto {
      * Дата создания задачи, объект класса {@link LocalDateTime}.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата создания задачи")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     /**
      * Дата истечения срока выполнения задачи, объект класса {@link LocalDateTime}.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата истечения срока выполнения задачи")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime expiresOn;
 
     /**
      * Дата обнолвения задачи, объект класса {@link LocalDateTime}.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата обновления задачи")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     @Override

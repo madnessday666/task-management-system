@@ -10,10 +10,10 @@ import java.util.List;
 public class NotFoundException extends RuntimeException {
 
     /**
-     * Метод создания нового исключения с параметрами.
+     * Конуструктор для создания исключения с заданными параметрами.
      *
-     * @param objectName       имя объекта, с которым связано исключение.
-     * @param objectAttributes список пар ключ-значение полей объекта, из-за которых произошел выброс исключения.
+     * @param objectName       имя объекта, связанного с исключением.
+     * @param objectAttributes имена и значения полей объекта, связанных с исключением.
      */
     public NotFoundException(String objectName, List<Pair<String, Object>> objectAttributes) {
         super(
@@ -25,11 +25,11 @@ public class NotFoundException extends RuntimeException {
     }
 
     /**
-     * Метод создания нового исключения с параметрами.
+     * Конуструктор для создания исключения с заданными параметрами.
      *
-     * @param objectName      имя объекта, с которым связан выброс исключения.
-     * @param objectAttribute поле объекта, из-за которого произошел выброс исключения.
-     * @param attributeValue  значение поля.
+     * @param objectName      имя объекта, связанного с исключением.
+     * @param objectAttribute имя  поляобъекта, связанное с исключением.
+     * @param attributeValue  значения поля объекта, связанное с исключением.
      */
     public NotFoundException(String objectName,
                              String objectAttribute,

@@ -4,7 +4,6 @@ import app.dto.task.*;
 import app.entity.task.TaskEntity;
 import app.exception.AlreadyExistsException;
 import app.exception.NotFoundException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -17,11 +16,12 @@ import java.util.UUID;
 public interface TaskService {
 
     /**
-     * Метод, реализующий поиск задач по указанным критериям в базе данных.
+     * Метод, реализующий поиск комментариев по указанным критериям и возвращающий список объектов, определенный
+     * номером страницы и количеством элементов.
      *
      * @param specification критерии поиска.
      * @param pageable      размеры возвращаемой страницы данных.
-     * @return {@link Page} со всеми найденными в БД задачами.
+     * @return {@link List} объектов {@link TaskEntity}. Может быть пустым.
      */
     List<TaskEntity> getTaskPage(Specification<TaskEntity> specification, Pageable pageable);
 
@@ -72,17 +72,18 @@ public interface TaskService {
     /**
      * Метод для создания новой задачи.
      *
-     * @param createTaskRequest запрос для создания новой задачи.
+     * @param creatorId id создателя задачи.
+     * @param createTaskRequest запрос на создание новой задачи.
      * @return {@link CreateTaskResponse} ответ с данными, возвращенными из БД после сохранения задачи.
      * @throws AlreadyExistsException если задача с указанным в запросе именем уже существует у пользователя,
      *                                указанного в запросе как создатель задачи ({@literal creatorId}).
      */
-    CreateTaskResponse createTask(CreateTaskRequest createTaskRequest) throws AlreadyExistsException;
+    CreateTaskResponse createTask(UUID creatorId, CreateTaskRequest createTaskRequest) throws AlreadyExistsException;
 
     /**
      * Метод для обновления существующей задачи.
      *
-     * @param updateTaskRequest запрос для обновления задачи.
+     * @param updateTaskRequest запрос на обновление задачи.
      * @return {@link UpdateTaskResponse} ответ с данными, возвращенными из БД после обновления задачи.
      * @throws NotFoundException если задача с указанным {@literal id} не присутствует в БД.
      */
@@ -91,9 +92,9 @@ public interface TaskService {
     /**
      * Метод для удаления задачи.
      *
-     * @param deleteTaskRequest запрос для удаления задачи.
+     * @param deleteTaskRequest запрос на удаление задачи.
      * @return {@link DeleteTaskResponse} ответ с данными, возвращенными из БД после удаления задачи.
-     * @throws NotFoundException если задача с указанным {@literal id} не присутствует в БД.
+     * @throws NotFoundException если задача с указанным в запросе {@literal id} не присутствует в БД.
      */
     DeleteTaskResponse deleteTask(DeleteTaskRequest deleteTaskRequest) throws NotFoundException;
 

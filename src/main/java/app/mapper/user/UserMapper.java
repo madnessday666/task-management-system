@@ -88,7 +88,7 @@ public class UserMapper {
     /**
      * Метод преобразования {@link List} объектов {@link UserEntity} в {@link List} объектов {@link UserDto}.
      *
-     * @param userEntities список объектов класса {@link UserEntity}.
+     * @param userEntities источник, список объектов класса {@link UserEntity}.
      * @return {@link List} объектов {@link UserEntity} со значениями полей от переданных {@link UserEntity}.
      */
     public List<UserDto> toDtoList(List<UserEntity> userEntities) {

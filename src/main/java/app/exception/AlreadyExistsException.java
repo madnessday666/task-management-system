@@ -11,6 +11,12 @@ import java.util.List;
  */
 public class AlreadyExistsException extends RuntimeException {
 
+    /**
+     * Конуструктор для создания исключения с заданными параметрами.
+     *
+     * @param objectName       имя объекта, связанного с исключением.
+     * @param objectAttributes имена и значения полей объекта, связанных с исключением.
+     */
     public AlreadyExistsException(String objectName, List<Pair<String, Object>> objectAttributes) {
         super(
                 String.format("%s with %s already exists",
@@ -20,6 +26,13 @@ public class AlreadyExistsException extends RuntimeException {
         );
     }
 
+    /**
+     * Конуструктор для создания исключения с заданными параметрами.
+     *
+     * @param objectName      имя объекта, связанного с исключением.
+     * @param objectAttribute имя  поляобъекта, связанное с исключением.
+     * @param attributeValue  значения поля объекта, связанное с исключением.
+     */
     public AlreadyExistsException(String objectName,
                                   String objectAttribute,
                                   Object attributeValue) {

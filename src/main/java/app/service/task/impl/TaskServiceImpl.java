@@ -27,6 +27,7 @@ import java.util.UUID;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+
     private final TaskMapper taskMapper;
 
     /**
@@ -93,25 +94,26 @@ public class TaskServiceImpl implements TaskService {
     /**
      * {@inheritDoc}
      *
-     * @see TaskService#createTask(CreateTaskRequest)
+     * @see TaskService#createTask(UUID, CreateTaskRequest)
      */
     @Override
-    public CreateTaskResponse createTask(CreateTaskRequest createTaskRequest) throws AlreadyExistsException {
+    public CreateTaskResponse createTask(UUID creatorId, CreateTaskRequest createTaskRequest) throws AlreadyExistsException {
         boolean isTaskWithSpecifiedNameExists =
-                this.getIsTaskExistsByNameAndCreatorId(createTaskRequest.getName(), createTaskRequest.getCreatorId());
+                this.getIsTaskExistsByNameAndCreatorId(createTaskRequest.getName(), creatorId);
         if (isTaskWithSpecifiedNameExists) {
             throw new AlreadyExistsException(
                     "Task",
                     List.of(
                             Pair.of("name", createTaskRequest.getName()),
-                            Pair.of("creator id", createTaskRequest.getCreatorId())
+                            Pair.of("creator id", creatorId)
                     ));
         } else {
             TaskEntity taskEntity = taskMapper.toTaskEntity(createTaskRequest);
+            taskEntity.setCreatorId(creatorId);
             taskEntity.setCreatedAt(LocalDateTime.now());
-            TaskEntity createdTask = taskRepository.saveAndFlush(taskEntity);
-            log.info("\nTask has been created: {}", createdTask);
-            return taskMapper.toCreateTaskResponse(createdTask);
+            taskRepository.saveAndFlush(taskEntity);
+            log.info("\nTask has been created: {}", taskEntity);
+            return taskMapper.toCreateTaskResponse(taskEntity);
         }
     }
 

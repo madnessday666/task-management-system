@@ -65,26 +65,29 @@ public class UpdateTaskResponse {
      * Дата создания задачи.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата создания задачи")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     /**
      * Дата истечения срока обновленной задачи.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата истечения срока выполнения задачи")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime expiresOn;
 
     /**
      * Дата обновления задачи.
      */
     @Schema(example = "2023-12-05T12:40", description = "Дата обновления задачи")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     /**
      * Дата и время создания ответа на запрос.
      */
     @Builder.Default
-    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     @Schema(description = "Дата и время создания ответа на запрос")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
 
     @Override

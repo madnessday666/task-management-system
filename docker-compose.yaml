@@ -1,30 +1,39 @@
 version: '3.8'
 
 services:
-  tms:
-    container_name: tms_db
+  database:
+    container_name: ${DB_CONTAINER_NAME}
     image: postgres:14.1-alpine
     restart: always
+    env_file:
+      - .env
     environment:
-      - POSTGRES_DB_FILE=/run/secrets/postgres_db
-      - POSTGRES_USER_FILE=/run/secrets/postgres_user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
-    secrets:
-      - postgres_db
-      - postgres_user
-      - postgres_password
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
     ports:
       - '5432:5432'
     volumes:
       - /var/opt/data/tms_db:/var/lib/postgresql/data
+  app:
+    container_name: app
+    env_file:
+      - .env
+    environment:
+      - APP_NAME
+      - APP_PORT
+      - POSTGRES_DB_URL
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - SECRET_KEY
+      - EXPIRES_IN_MS
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
 volumes:
   db:
     driver: local
-
-secrets:
-  postgres_user:
-    file: secrets/postgres_user.txt
-  postgres_password:
-    file: secrets/postgres_password.txt
-  postgres_db:
-    file: secrets/postgres_db.txt

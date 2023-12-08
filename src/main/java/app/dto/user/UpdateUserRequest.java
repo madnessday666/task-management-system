@@ -95,7 +95,8 @@ public class UpdateUserRequest {
     @Override
     public String toString() {
         return "UpdateUserRequest{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

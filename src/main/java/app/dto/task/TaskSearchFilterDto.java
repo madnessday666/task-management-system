@@ -64,4 +64,25 @@ public class TaskSearchFilterDto {
     @Schema(description = "Фильтрация по дате обновления задачи, значения которой меньше или равны указанному, например \"2023-12-5T12:40\"")
     private LocalDateTime updatedAtBefore;
 
+    @Override
+    public String toString() {
+        return "TaskSearchFilterDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", priority='" + priority + '\'' +
+                ", creatorId=" + creatorId +
+                ", executorId=" + executorId +
+                ", createdAt=" + createdAt +
+                ", createdAtAfter=" + createdAtAfter +
+                ", createdAtBefore=" + createdAtBefore +
+                ", expiresOn=" + expiresOn +
+                ", expiresOnAfter=" + expiresOnAfter +
+                ", expiresOnBefore=" + expiresOnBefore +
+                ", updatedAt=" + updatedAt +
+                ", updatedAtAfter=" + updatedAtAfter +
+                ", updatedAtBefore=" + updatedAtBefore +
+                '}';
+    }
 }

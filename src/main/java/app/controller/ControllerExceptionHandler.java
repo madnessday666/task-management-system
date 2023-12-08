@@ -26,7 +26,6 @@ import java.util.Objects;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-
     /**
      * Метод для формироваиня отчета об ошибке в виде объекта класса {@link ApiError}.
      *
@@ -263,6 +262,27 @@ public class ControllerExceptionHandler {
                 .status(status.value())
                 .error(exception.getClass().getSimpleName())
                 .message(errorFields.toString())
+                .path(httpServletRequest.getServletPath())
+                .build();
+        return new ResponseEntity<>(apiError, status);
+    }
+
+    /**
+     * Метод для формироваиня отчета об ошибке в виде объекта класса {@link ApiError}.
+     *
+     * @param httpServletRequest информация о запросе.
+     * @param exception          исключение, вознишее в ходе обработки запроса.
+     * @return {@link ResponseEntity} с телом {@link ApiError}.
+     */
+    @ExceptionHandler({InvalidValueSelectionException.class})
+    public ResponseEntity<ApiError> httpMessageNotReadableHandler(HttpServletRequest httpServletRequest,
+                                                                  InvalidValueSelectionException exception) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError apiError = ApiError
+                .builder()
+                .status(status.value())
+                .error(exception.getClass().getSimpleName())
+                .message(exception.getMessage())
                 .path(httpServletRequest.getServletPath())
                 .build();
         return new ResponseEntity<>(apiError, status);

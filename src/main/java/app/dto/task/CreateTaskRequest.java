@@ -1,7 +1,5 @@
 package app.dto.task;
 
-import app.entity.task.TaskPriority;
-import app.entity.task.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -61,8 +59,8 @@ public class CreateTaskRequest {
      * @see NotNull
      */
     @NotNull(message = "Status cannot be null")
-    @Schema(example = "PENDING", allowableValues = {"PENDING", "IN_PROGRESS", "DONE"}, description = "Статус задачи")
-    private TaskStatus status;
+    @Schema(example = "pending", allowableValues = {"pending", "in_progress", "done"}, description = "Статус задачи")
+    private String status;
 
     /**
      * Приоритет создаваемой задачи. Не может быть {@literal null}.
@@ -70,17 +68,8 @@ public class CreateTaskRequest {
      * @see NotNull
      */
     @NotNull(message = "Priority cannot be null")
-    @Schema(example = "MEDIUM", allowableValues = {"HIGH", "MEDIUM", "LOW"}, description = "Приоритет задачи")
-    private TaskPriority priority;
-
-    /**
-     * Id пользователя, создавшего задачу. Не может быть {@literal null}.
-     *
-     * @see NotNull
-     */
-    @NotNull(message = "Creator id cannot be null")
-    @Schema(example = "3fa85f64-5717-4562-b3fc-2c963f66afa6", description = "Id создателя задачи задачи")
-    private UUID creatorId;
+    @Schema(example = "medium", allowableValues = {"high", "medium", "low"}, description = "Приоритет задачи")
+    private String priority;
 
     /**
      * Id пользователя, исполняющего задачу. Может быть {@literal null}.
@@ -110,9 +99,8 @@ public class CreateTaskRequest {
         return "CreateTaskRequest{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", status=" + status +
-                ", priority=" + priority +
-                ", creatorId=" + creatorId +
+                ", status='" + status + '\'' +
+                ", priority='" + priority + '\'' +
                 ", executorId=" + executorId +
                 ", expiresOn=" + expiresOn +
                 ", timestamp=" + timestamp +

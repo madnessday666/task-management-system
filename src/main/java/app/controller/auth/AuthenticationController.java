@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +30,12 @@ public class AuthenticationController {
 
     private final AuthenticationServiceImpl authenticationService;
 
+    /**
+     * Обрабатывает полученный запрос на аутентификацию.
+     *
+     * @param authenticationRequest запрос на аутентификацию.
+     * @return {@link ResponseEntity} с телом {@link AuthenticationResponse} в случае успеха.
+     */
     @Operation(
             summary = "Аутентификация в системе",
             description = "Вход в систему с учетными данными пользователя"
@@ -47,8 +52,8 @@ public class AuthenticationController {
                                             schema = @Schema(implementation = AuthenticationResponse.class)
                                     )}),
                     @ApiResponse(
-                            responseCode = "403",
-                            description = "Если имя пользователя или пароль неверны",
+                            responseCode = "400",
+                            description = "Если в запросе присутствуют недопустимые значения",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -56,26 +61,30 @@ public class AuthenticationController {
                                     )}),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Если пользователь заблокирован",
+                            description = """
+                                    \t
+                                    Если имя пользователя или пароль неверны
+                                    \t
+                                    Если пользователь заблокирован
+                                    \t
+                                    Если пользователь не активирован""",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
                                             schema = @Schema(implementation = ApiError.class)
-                                    )}),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Если пользователь не активирован",
-                            content = {
-                                    @Content(
-                                            mediaType = "application/json",
-                                            schema = @Schema(implementation = ApiError.class)
-                                    )}),
+                                    )})
             })
     @PostMapping(SIGN_IN)
-    public ResponseEntity<AuthenticationResponse> signIn(@ParameterObject @RequestBody @Valid AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authenticationService.signIn(authenticationRequest));
     }
 
+    /**
+     * Обрабатывает полученный запрос на регистрацию.
+     *
+     * @param registrationRequest запрос на регистрацию.
+     * @return {@link ResponseEntity} с телом {@link RegistrationResponse} в случае успеха.
+     */
     @Operation(
             summary = "Регистрация в системе",
             description = "Регистрация в системе с новыми учетными данными пользователя"
@@ -93,7 +102,7 @@ public class AuthenticationController {
                                     )}),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Если значения полей не прошли валидацию",
+                            description = "Если в запросе присутствуют недопустимые значения",
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -109,7 +118,7 @@ public class AuthenticationController {
                                     )}),
             })
     @PostMapping(SIGN_UP)
-    public ResponseEntity<RegistrationResponse> signUp(@ParameterObject @RequestBody @Valid RegistrationRequest registrationRequest) {
+    public ResponseEntity<RegistrationResponse> signUp(@RequestBody @Valid RegistrationRequest registrationRequest) {
         return ResponseEntity.ok(authenticationService.signUp(registrationRequest));
     }
 

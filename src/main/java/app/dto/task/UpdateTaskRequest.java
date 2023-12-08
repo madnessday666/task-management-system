@@ -1,7 +1,5 @@
 package app.dto.task;
 
-import app.entity.task.TaskPriority;
-import app.entity.task.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -44,14 +42,14 @@ public class UpdateTaskRequest {
     /**
      * Новый статус обновляемой задачи.
      */
-    @Schema(example = "DONE", allowableValues = {"PENDING", "IN_PROGRESS", "DONE"}, description = "Новый статус задачи")
-    private TaskStatus status;
+    @Schema(example = "done", allowableValues = {"pending", "in_progress", "done"}, description = "Новый статус задачи")
+    private String status;
 
     /**
      * Новый приоритет обновляемой задачи.
      */
-    @Schema(example = "HIGH", allowableValues = {"HIGH", "MEDIUM", "LOW"}, description = "Новый приоритет задачи")
-    private TaskPriority priority;
+    @Schema(example = "high", allowableValues = {"high", "medium", "low"}, description = "Новый приоритет задачи")
+    private String priority;
 
     /**
      * Новый Id пользователя, исполняющего задачу.
@@ -79,8 +77,8 @@ public class UpdateTaskRequest {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", status=" + status +
-                ", priority=" + priority +
+                ", status='" + status + '\'' +
+                ", priority='" + priority + '\'' +
                 ", executorId=" + executorId +
                 ", expiresOn=" + expiresOn +
                 ", timestamp=" + timestamp +

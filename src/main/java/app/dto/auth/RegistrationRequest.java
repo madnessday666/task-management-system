@@ -51,7 +51,7 @@ public class RegistrationRequest {
                     Password must contain 1 non-alpha numeric number
                     Password is 8-16 characters with no space
                      """)
-    @Schema(example = "mypass123", description = "Пароль пользователя для входа в систему")
+    @Schema(example = "Mypass123!", description = "Пароль пользователя для входа в систему")
     private String password;
 
     /**
@@ -104,4 +104,5 @@ public class RegistrationRequest {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
 }

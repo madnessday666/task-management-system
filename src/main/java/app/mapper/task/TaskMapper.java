@@ -44,7 +44,7 @@ public class TaskMapper {
     /**
      * Метод преобразования {@link List} объектов {@link TaskEntity} в {@link List} объектов {@link TaskDto}.
      *
-     * @param taskEntities список объектов класса {@link TaskEntity}.
+     * @param taskEntities источник, список объектов класса {@link TaskEntity}.
      * @return {@link List} объектов {@link TaskDto} со значениями полей от переданных {@link TaskEntity}.
      */
     public List<TaskDto> toDtoList(List<TaskEntity> taskEntities) {

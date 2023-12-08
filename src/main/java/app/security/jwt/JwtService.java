@@ -28,7 +28,6 @@ public class JwtService {
     @Value("${security.jwt.expiresInMs}")
     private long expiresInMs;
 
-
     /**
      * Метод для извлечения из токена данных с опредленным ключем.
      *
