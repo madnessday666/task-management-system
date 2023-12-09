@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -93,7 +94,7 @@ public class AuthenticationController {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "201",
                             description = "Успешная регистрация",
                             content = {
                                     @Content(
@@ -119,7 +120,7 @@ public class AuthenticationController {
             })
     @PostMapping(SIGN_UP)
     public ResponseEntity<RegistrationResponse> signUp(@RequestBody @Valid RegistrationRequest registrationRequest) {
-        return ResponseEntity.ok(authenticationService.signUp(registrationRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.signUp(registrationRequest));
     }
 
 }

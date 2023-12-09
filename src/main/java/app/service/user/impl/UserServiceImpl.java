@@ -106,9 +106,9 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userMapper.toUserEntity(registrationRequest);
         user.setRole(UserRole.ROLE_USER);
         user.setCreatedAt(LocalDateTime.now());
-        UserEntity createdUser = userRepository.saveAndFlush(user);
-        log.info("\nUser has been created: {}", createdUser);
-        return userMapper.toRegistrationResponse(createdUser);
+        userRepository.saveAndFlush(user);
+        log.info("\nUser has been created: {}", user);
+        return userMapper.toRegistrationResponse(user);
     }
 
     /**

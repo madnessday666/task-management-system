@@ -274,9 +274,9 @@ public class ControllerExceptionHandler {
      * @param exception          исключение, вознишее в ходе обработки запроса.
      * @return {@link ResponseEntity} с телом {@link ApiError}.
      */
-    @ExceptionHandler({InvalidValueSelectionException.class})
+    @ExceptionHandler({InvalidValueException.class})
     public ResponseEntity<ApiError> httpMessageNotReadableHandler(HttpServletRequest httpServletRequest,
-                                                                  InvalidValueSelectionException exception) {
+                                                                  InvalidValueException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ApiError apiError = ApiError
                 .builder()

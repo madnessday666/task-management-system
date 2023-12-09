@@ -26,6 +26,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -234,7 +235,7 @@ public class TaskController {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "201",
                             description = "Задача успешно создана",
                             content = {
                                     @Content(
@@ -266,6 +267,14 @@ public class TaskController {
                                             schema = @Schema(implementation = ApiError.class)
                                     )}),
                     @ApiResponse(
+                            responseCode = "404",
+                            description = "Если исполнитель с указанным в запросе id не существует",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            schema = @Schema(implementation = ApiError.class)
+                                    )}),
+                    @ApiResponse(
                             responseCode = "409",
                             description = "Если задача с указанным именем уже присутствует у пользователя",
                             content = {
@@ -279,13 +288,13 @@ public class TaskController {
                                                          HttpServletRequest httpServletRequest) {
         controllerHelper.checkAndModifyRequest(createTaskRequest);
         UUID creatorId = controllerHelper.getUserIdFromHttpServletRequest(httpServletRequest);
-        return ResponseEntity.ok(taskService.createTask(creatorId, createTaskRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(creatorId, createTaskRequest));
     }
 
     /**
      * Обрабатывает полученный запрос на создание комментария.
      *
-     * @param createTaskCommentRequest запрос на создание задачи.
+     * @param createTaskCommentRequest запрос на создание комментария1.
      * @param httpServletRequest       информация о HTTP запросе.
      * @return {@link ResponseEntity} с телом {@link CreateTaskCommentResponse} в случае успеха.
      */
@@ -297,7 +306,7 @@ public class TaskController {
     @ApiResponses(
             value = {
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "201",
                             description = "Комментарий успешно создан",
                             content = {
                                     @Content(
@@ -354,7 +363,7 @@ public class TaskController {
         controllerHelper.checkRequest(taskId, httpServletRequest);
         TaskEntity task = taskService.getTaskById(taskId);
         UserEntity user = userService.getUserById(controllerHelper.getUserIdFromHttpServletRequest(httpServletRequest));
-        return ResponseEntity.ok(taskCommentService.createTaskComment(createTaskCommentRequest, task, user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskCommentService.createTaskComment(createTaskCommentRequest, task, user));
     }
 
     /**
@@ -409,7 +418,11 @@ public class TaskController {
                                     )}),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Если задача с указанным id не существует",
+                            description = """
+                                     \t
+                                    Если задача с указанным id не существует
+                                     \t
+                                    Если исполнитель с указанным в запросе id не существует""",
                             content = {
                                     @Content(
                                             mediaType = "application/json",

@@ -2,7 +2,7 @@ FROM gradle:8.4.0-jdk17-alpine AS build
 WORKDIR /app
 ADD --chown=gradle:gradle . /app/task-management-system
 WORKDIR /app/task-management-system
-RUN gradle build --no-daemon -x test
+RUN gradle build --no-daemon
 
 FROM openjdk:17-alpine
 

@@ -72,7 +72,7 @@ public interface TaskService {
     /**
      * Метод для создания новой задачи.
      *
-     * @param creatorId id создателя задачи.
+     * @param creatorId         id создателя задачи.
      * @param createTaskRequest запрос на создание новой задачи.
      * @return {@link CreateTaskResponse} ответ с данными, возвращенными из БД после сохранения задачи.
      * @throws AlreadyExistsException если задача с указанным в запросе именем уже существует у пользователя,
@@ -85,7 +85,8 @@ public interface TaskService {
      *
      * @param updateTaskRequest запрос на обновление задачи.
      * @return {@link UpdateTaskResponse} ответ с данными, возвращенными из БД после обновления задачи.
-     * @throws NotFoundException если задача с указанным {@literal id} не присутствует в БД.
+     * @throws NotFoundException      если задача с указанным {@literal id} не присутствует в БД.
+     * @throws AlreadyExistsException если задача с указанным в запросе именем уже существует у пользователя (creatorId).
      */
     UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) throws NotFoundException;
 

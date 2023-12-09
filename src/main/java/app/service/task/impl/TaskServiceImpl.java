@@ -40,7 +40,6 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findAll(specification, pageable).getContent();
     }
 
-
     /**
      * {@inheritDoc}
      *
@@ -48,7 +47,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public TaskEntity getTaskById(UUID taskId) throws NotFoundException {
-        return taskRepository.getTaskEntityById(taskId).orElseThrow(() -> new NotFoundException("Task", "id", taskId));
+        return taskRepository.findById(taskId).orElseThrow(() -> new NotFoundException("Task", "id", taskId));
     }
 
     /**
@@ -123,13 +122,24 @@ public class TaskServiceImpl implements TaskService {
      * @see TaskService#updateTask(UpdateTaskRequest)
      */
     @Override
-    public UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) throws NotFoundException {
+    public UpdateTaskResponse updateTask(UpdateTaskRequest updateTaskRequest) throws NotFoundException, AlreadyExistsException {
         TaskEntity task = this.getTaskById(updateTaskRequest.getId());
-        taskMapper.toTaskEntity(updateTaskRequest, task);
-        task.setUpdatedAt(LocalDateTime.now());
-        taskRepository.saveAndFlush(task);
-        log.info("\nTask has been updated: {}", task);
-        return taskMapper.toUpdateTaskResponse(task);
+        boolean isTaskWithSpecifiedNameExists =
+                this.getIsTaskExistsByNameAndCreatorId(updateTaskRequest.getName(), task.getCreatorId());
+        if (isTaskWithSpecifiedNameExists) {
+            throw new AlreadyExistsException(
+                    "Task",
+                    List.of(
+                            Pair.of("name", updateTaskRequest.getName()),
+                            Pair.of("creator id", task.getCreatorId())
+                    ));
+        } else {
+            taskMapper.toTaskEntity(updateTaskRequest, task);
+            task.setUpdatedAt(LocalDateTime.now());
+            taskRepository.saveAndFlush(task);
+            log.info("\nTask has been updated: {}", task);
+            return taskMapper.toUpdateTaskResponse(task);
+        }
     }
 
     /**

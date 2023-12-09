@@ -10,6 +10,7 @@ import app.entity.task.TaskStatus;
 import app.exception.*;
 import app.security.jwt.JwtService;
 import app.service.task.impl.TaskServiceImpl;
+import app.service.user.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ public class ControllerHelper {
 
     private final JwtService jwtService;
     private final TaskServiceImpl taskService;
+    private final UserServiceImpl userService;
 
     /**
      * Метод для проверки запроса.
@@ -98,23 +100,36 @@ public class ControllerHelper {
     }
 
     /**
+     * Метод для проверки запроса.
+     *
+     * @param createTaskRequest запрос на создание задачи.
+     * @throws InvalidValueException если указанные в запросе данные некорректны.
+     * @throws NotFoundException     если указанный в запросе id исполнителя не присутствует в базе данных.
+     */
+    public void checkAndModifyRequest(CreateTaskRequest createTaskRequest) throws InvalidValueException, NotFoundException {
+        if(createTaskRequest.getExecutorId() != null){
+            boolean isExecutorExists = userService.getIsUserExistsById(createTaskRequest.getExecutorId());
+            if (!isExecutorExists) {
+                throw new NotFoundException("User(executor)", "id", createTaskRequest.getExecutorId());
+            }
+        }
+        this.checkRequestForEnums(createTaskRequest);
+    }
+
+    /**
      * Метод для проверки запроса. В случае, если прав недостаточно для изменения всех полей задачи - в запросе останутся
      * только те поля, на изменение которых у пользователя есть права.
      *
      * @param updateTaskRequest  запрос на обновление задачи.
      * @param httpServletRequest информация о HTTP запросе.
-     * @throws PermissionDeniedException      если у пользователя недостаточно прав для выполнения запроса.
-     * @throws AlreadyExistsException         если задача с указанным в запросе именем уже существует у текущего пользователя.
-     * @throws InvalidValueSelectionException если указанные в запросе данные некорректны.
+     * @throws PermissionDeniedException если у пользователя недостаточно прав для выполнения запроса.
+     * @throws InvalidValueException     если указанные в запросе данные некорректны.
+     * @throws NotFoundException         если указанный в запросе id исполнителя не присутствует в базе данных.
      */
     public void checkAndModifyRequest(UpdateTaskRequest updateTaskRequest, HttpServletRequest httpServletRequest)
-            throws PermissionDeniedException, AlreadyExistsException, InvalidValueSelectionException {
+            throws PermissionDeniedException, InvalidValueException {
         UUID currentUserId = this.getUserIdFromHttpServletRequest(httpServletRequest);
-        boolean isTaskWithNameExists = taskService.getIsTaskExistsByNameAndCreatorId(updateTaskRequest.getName(), currentUserId);
-        if (isTaskWithNameExists) {
-            throw new AlreadyExistsException("Task", "name", updateTaskRequest.getName());
-        }
-        this.checkAndModifyRequest(updateTaskRequest);
+        this.checkRequestForEnums(updateTaskRequest);
         boolean isUserTaskCreator = taskService.getIsTaskExistsByIdAndCreatorId(updateTaskRequest.getId(), currentUserId);
         boolean isUserTaskExecutor = taskService.getIsTaskExistsByIdAndExecutorId(updateTaskRequest.getId(), currentUserId);
         if (!isUserTaskCreator) {
@@ -127,6 +142,13 @@ public class ControllerHelper {
             } else {
                 throw new PermissionDeniedException("User is not related to the task");
             }
+        } else {
+            if (updateTaskRequest.getExecutorId() != null) {
+                boolean isExecutorExists = userService.getIsUserExistsById(updateTaskRequest.getId());
+                if (!isExecutorExists) {
+                    throw new NotFoundException("User(executor)", "id", updateTaskRequest.getId());
+                }
+            }
         }
     }
 
@@ -135,9 +157,9 @@ public class ControllerHelper {
      * Приводит строковые значения в запросе к верхнему регистру.
      *
      * @param request запрос.
-     * @throws InvalidValueSelectionException если значения не соответствуют допустимым.
+     * @throws InvalidValueException если значения не соответствуют допустимым.
      */
-    public void checkAndModifyRequest(Object request) throws InvalidValueSelectionException {
+    public void checkRequestForEnums(Object request) throws InvalidValueException {
         if (request instanceof CreateTaskRequest) {
             if (((CreateTaskRequest) request).getStatus() != null) {
                 try {
@@ -148,7 +170,7 @@ public class ControllerHelper {
                     String values = Arrays
                             .stream(TaskStatus.values()).map(value -> value.toString().toLowerCase())
                             .collect(Collectors.joining(", "));
-                    throw new InvalidValueSelectionException(((CreateTaskRequest) request).getStatus(), values);
+                    throw new InvalidValueException(((CreateTaskRequest) request).getStatus(), values);
                 }
             }
             if (((CreateTaskRequest) request).getPriority() != null) {
@@ -160,7 +182,7 @@ public class ControllerHelper {
                     String values = Arrays
                             .stream(TaskPriority.values()).map(value -> value.toString().toLowerCase())
                             .collect(Collectors.joining(", "));
-                    throw new InvalidValueSelectionException(((CreateTaskRequest) request).getPriority(), values);
+                    throw new InvalidValueException(((CreateTaskRequest) request).getPriority(), values);
                 }
             }
         } else if (request instanceof UpdateTaskRequest) {
@@ -173,7 +195,7 @@ public class ControllerHelper {
                     String values = Arrays
                             .stream(TaskStatus.values()).map(value -> value.toString().toLowerCase())
                             .collect(Collectors.joining(", "));
-                    throw new InvalidValueSelectionException(((UpdateTaskRequest) request).getStatus(), values);
+                    throw new InvalidValueException(((UpdateTaskRequest) request).getStatus(), values);
                 }
             }
             if (((UpdateTaskRequest) request).getPriority() != null) {
@@ -185,7 +207,7 @@ public class ControllerHelper {
                     String values = Arrays
                             .stream(TaskPriority.values()).map(value -> value.toString().toLowerCase())
                             .collect(Collectors.joining(", "));
-                    throw new InvalidValueSelectionException(((UpdateTaskRequest) request).getPriority(), values);
+                    throw new InvalidValueException(((UpdateTaskRequest) request).getPriority(), values);
                 }
             }
         }

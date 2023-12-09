@@ -11,7 +11,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -19,15 +18,6 @@ import java.util.UUID;
  */
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, UUID>, JpaSpecificationExecutor<TaskEntity>, PagingAndSortingRepository<TaskEntity, UUID> {
-
-
-    /**
-     * Поиск задачи с указанным {@literal id} в базе данных.
-     *
-     * @param taskId id задачи.
-     * @return {@link Optional}, содержащий объект класса {@link TaskEntity} в случае нахождения.
-     */
-    Optional<TaskEntity> getTaskEntityById(UUID taskId);
 
     /**
      * Позволяет выполнять поиск в базе данных по указанным критериям и вернуть результат с заданным количеством страниц.
