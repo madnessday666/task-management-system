@@ -7,7 +7,10 @@ import app.dto.user.DeleteUserRequest;
 import app.dto.user.UpdateUserRequest;
 import app.entity.task.TaskPriority;
 import app.entity.task.TaskStatus;
-import app.exception.*;
+import app.exception.AuthorizationHeaderNotPresentException;
+import app.exception.InvalidValueException;
+import app.exception.NotFoundException;
+import app.exception.PermissionDeniedException;
 import app.security.jwt.JwtService;
 import app.service.task.impl.TaskServiceImpl;
 import app.service.user.impl.UserServiceImpl;
@@ -107,7 +110,7 @@ public class ControllerHelper {
      * @throws NotFoundException     если указанный в запросе id исполнителя не присутствует в базе данных.
      */
     public void checkAndModifyRequest(CreateTaskRequest createTaskRequest) throws InvalidValueException, NotFoundException {
-        if(createTaskRequest.getExecutorId() != null){
+        if (createTaskRequest.getExecutorId() != null) {
             boolean isExecutorExists = userService.getIsUserExistsById(createTaskRequest.getExecutorId());
             if (!isExecutorExists) {
                 throw new NotFoundException("User(executor)", "id", createTaskRequest.getExecutorId());

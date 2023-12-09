@@ -22,7 +22,7 @@ public interface TaskCommentService {
     /**
      * Метод, реализующий поиск комментариев по id задачи и возвращающий список объектов, определенный номером страницы и количеством элементов.
      *
-     * @param taskId id задачи.
+     * @param taskId   id задачи.
      * @param pageable размеры возвращаемой страницы данных.
      * @return {@link List} объектов {@link TaskCommentEntity}. Может быть пустым.
      */

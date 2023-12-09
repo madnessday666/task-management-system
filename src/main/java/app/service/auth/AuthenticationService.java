@@ -14,7 +14,6 @@ import org.springframework.security.authentication.LockedException;
  */
 public interface AuthenticationService {
 
-
     /**
      * Метод, реализующий аутентификацию пользователя в системе.
      *

@@ -189,7 +189,12 @@ public class TaskController {
                                     )}),
                     @ApiResponse(
                             responseCode = "403",
-                            description = "Если JWT просрочен или некорректен",
+                            description = """
+                                    \t
+                                    Если JWT просрочен или некорректен
+                                    \t
+                                    Если пользователь не является создателем или исполнителем задачи
+                                    """,
                             content = {
                                     @Content(
                                             mediaType = "application/json",
@@ -276,7 +281,7 @@ public class TaskController {
                                     )}),
                     @ApiResponse(
                             responseCode = "409",
-                            description = "Если задача с указанным именем уже присутствует у пользователя",
+                            description = "Если задача с указанным именем уже присутствует у пользователя (создателя)",
                             content = {
                                     @Content(
                                             mediaType = "application/json",

@@ -21,7 +21,7 @@ public interface TaskCommentRepository extends JpaRepository<TaskCommentEntity, 
     /**
      * Позволяет выполнять поиск комментариев с указанным {@literal taskId} в базе данных и вернуть результат c заданным количеством страниц.
      *
-     * @param taskId id задачи.
+     * @param taskId   id задачи.
      * @param pageable не должен быть {@literal null}.
      * @return Объект класса {@link Page} со всеми найденными записями из таблицы.
      * @see Pageable

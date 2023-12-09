@@ -34,7 +34,12 @@ public class UserMapper {
                 .addMappings(mapping -> mapping.skip(
                         UserEntity::getPassword,
                         RegistrationResponse::setPassword));
-        modelMapper.createTypeMap(UpdateUserRequest.class, UserEntity.class);
+        modelMapper
+                .createTypeMap(UpdateUserRequest.class, UserEntity.class)
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getUsername, UserEntity::setUsername))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getPassword, UserEntity::setPassword))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getName, UserEntity::setName))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getEmail, UserEntity::setEmail));
         modelMapper.createTypeMap(UserEntity.class, UpdateUserRequest.class);
         modelMapper
                 .createTypeMap(UserEntity.class, UpdateUserResponse.class)
@@ -102,13 +107,7 @@ public class UserMapper {
      * @param userEntity        получатель, объект класса {@link UserEntity}
      */
     public void toUserEntity(UpdateUserRequest updateUserRequest, UserEntity userEntity) {
-        modelMapper
-                .getTypeMap(UpdateUserRequest.class, UserEntity.class)
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getUsername, UserEntity::setUsername))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getPassword, UserEntity::setPassword))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getName, UserEntity::setName))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateUserRequest::getEmail, UserEntity::setEmail))
-                .map(updateUserRequest, userEntity);
+        modelMapper.map(updateUserRequest, userEntity);
     }
 
 }

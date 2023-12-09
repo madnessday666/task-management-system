@@ -24,7 +24,14 @@ public class TaskMapper {
      */
     @PostConstruct
     private void init() {
-        modelMapper.createTypeMap(UpdateTaskRequest.class, TaskEntity.class);
+        modelMapper
+                .createTypeMap(UpdateTaskRequest.class, TaskEntity.class)
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getName, TaskEntity::setName))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getDescription, TaskEntity::setDescription))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getStatus, TaskEntity::setStatus))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getPriority, TaskEntity::setPriority))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getExecutorId, TaskEntity::setExecutorId))
+                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getExpiresOn, TaskEntity::setExpiresOn));
         modelMapper.createTypeMap(TaskEntity.class, CreateTaskResponse.class);
         modelMapper.createTypeMap(TaskEntity.class, UpdateTaskResponse.class);
         modelMapper.createTypeMap(CreateTaskRequest.class, TaskEntity.class);
@@ -91,15 +98,7 @@ public class TaskMapper {
      * @param taskEntity        получатель, объект класса {@link TaskEntity}
      */
     public void toTaskEntity(UpdateTaskRequest updateTaskRequest, TaskEntity taskEntity) {
-        modelMapper
-                .getTypeMap(UpdateTaskRequest.class, TaskEntity.class)
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getName, TaskEntity::setName))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getDescription, TaskEntity::setDescription))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getStatus, TaskEntity::setStatus))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getPriority, TaskEntity::setPriority))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getExecutorId, TaskEntity::setExecutorId))
-                .addMappings(mapper -> mapper.when(Conditions.isNull()).skip(UpdateTaskRequest::getExpiresOn, TaskEntity::setExpiresOn))
-                .map(updateTaskRequest, taskEntity);
+        modelMapper.map(updateTaskRequest, taskEntity);
     }
 
 }

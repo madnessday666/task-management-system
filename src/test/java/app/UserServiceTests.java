@@ -58,7 +58,6 @@ public class UserServiceTests {
         validator = factory.getValidator();
     }
 
-
     @Test
     void handleUpdateUserRequest_whenRequestIsValid_thenReturnUpdateUserResponse() {
         UpdateUserRequest request = UpdateUserRequest

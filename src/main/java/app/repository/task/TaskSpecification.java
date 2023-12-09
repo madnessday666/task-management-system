@@ -110,7 +110,7 @@ public class TaskSpecification {
                 TaskStatus taskStatus = TaskStatus.valueOf(status.toUpperCase());
                 return ((root, query, cb) -> cb.equal(root.get(STATUS), taskStatus));
             } catch (IllegalArgumentException e) {
-                return ((root, query, cb) -> cb.conjunction());
+                return ((root, query, cb) -> null);
             }
         }
     }
@@ -126,7 +126,7 @@ public class TaskSpecification {
                 TaskPriority taskPriority = TaskPriority.valueOf(priority.toUpperCase());
                 return ((root, query, cb) -> cb.equal(root.get(PRIORITY), taskPriority));
             } catch (IllegalArgumentException e) {
-                return ((root, query, cb) -> cb.conjunction());
+                return ((root, query, cb) -> null);
             }
         }
     }

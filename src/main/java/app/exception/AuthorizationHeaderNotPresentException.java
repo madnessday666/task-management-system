@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 public class AuthorizationHeaderNotPresentException extends RuntimeException {
 
     /**
-     * Конструктор для создания исключения с заданными параметрами.
+     * Конструктор для создания исключения.
      */
     public AuthorizationHeaderNotPresentException() {
         super("Authorization header not present");
