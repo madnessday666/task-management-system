@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -278,6 +279,27 @@ public class ControllerExceptionHandler {
     public ResponseEntity<ApiError> httpMessageNotReadableHandler(HttpServletRequest httpServletRequest,
                                                                   InvalidValueException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiError apiError = ApiError
+                .builder()
+                .status(status.value())
+                .error(exception.getClass().getSimpleName())
+                .message(exception.getMessage())
+                .path(httpServletRequest.getServletPath())
+                .build();
+        return new ResponseEntity<>(apiError, status);
+    }
+
+    /**
+     * Метод для формироваиня отчета об ошибке в виде объекта класса {@link ApiError}.
+     *
+     * @param httpServletRequest информация о запросе.
+     * @param exception          исключение, вознишее в ходе обработки запроса.
+     * @return {@link ResponseEntity} с телом {@link ApiError}.
+     */
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<ApiError> usernameNotFoundHandler(HttpServletRequest httpServletRequest,
+                                                            UsernameNotFoundException exception) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
         ApiError apiError = ApiError
                 .builder()
                 .status(status.value())
