@@ -5,8 +5,7 @@ CREATE SCHEMA public;
 CREATE TABLE IF NOT EXISTS users
 (
     id uuid primary key unique default gen_random_uuid() not null,
-    username varchar(
-    255) unique not null,
+    username varchar(255) unique not null,
     password varchar(255) not null,
     name varchar(255) not null,
     email varchar(255) unique not null,
@@ -32,9 +31,9 @@ CREATE TABLE IF NOT EXISTS tasks
     status varchar(255)
     check(
         status in(
-    'PENDING',
-    'IN_PROGRESS',
-    'DONE')) not null,
+                    'PENDING',
+                    'IN_PROGRESS',
+                    'DONE')) not null,
     priority varchar(255)
     check(
     priority in(
